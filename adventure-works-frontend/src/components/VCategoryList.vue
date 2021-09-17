@@ -1,30 +1,45 @@
 <template>
   <h1 class="adventureListHeader">Adventure Works Category List</h1>
-  <ul id="categoryList">
+  <ul v-show="fetchComplete" id="categoryList">
   </ul>
+  <h1 v-show="!fetchComplete">Waiting for fetch</h1>
   <button v-on:click="test">Click</button>
-  <p>Cześć {{msg}}</p>
 </template>
 
 <script>
 const VCategoryList = {
   data(){
     return{
-       
+       fetchComplete:false,
+       users:[],
     }
   },
   methods:{
-    test(){
+    fetch(){
       const list = document.getElementById('categoryList')
+      
+      fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response => response.json())
+        .then(json => {
+          this.fetchComplete = true;
+          return json.map(e => {
+            let element = document.createElement('li')
+            element.innerText = e.name;
+            return element;
+          })
+        })
+        .then((elements) => {
+          this.users = elements;
+          list.append(...elements)
+        })
 
-      const digits = [1,2,3,4,5,6,7,8].map(i =>{
-        const liElement = document.createElement('li');
-        liElement.innerText = i;
-        return liElement;
-      });
-
-      list.append(...digits)
-    }
+      }
+  },
+  mounted(){
+    this.fetch();
+  },
+  updated(){
+    console.log(this.users)
   }
 }
 export default VCategoryList;
