@@ -8,18 +8,29 @@ import VCategoryList from './components/VCategoryList.vue'
 export default {
   name: 'App',
   components: {
-    VCategoryList
+    VCategoryList,
   }
 }
 </script>
 
 <style>
+*,*::before,*::after{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+
+}
 #app {
+  margin:0 auto;
+  max-width:1000px;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+.flex{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
 }
 </style>
