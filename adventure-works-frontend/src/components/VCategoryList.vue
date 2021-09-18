@@ -1,9 +1,14 @@
 <template>
   <h1 class="adventureListHeader">Adventure Works Category List</h1>
   <ul v-show="fetchComplete" id="categoryList">
-    <li v-on:click="test" v-for="category in categories" :key="category.id" class="category">
+    <li @click='showProductList' v-for="category in categories" :key="category.id" class="category">
       <h4>{{category.name}}</h4>
-      <div id="categoryListDescription">{{category.username}}</div>
+      <ol class="productList hide">
+          <h5>{{category.name}} product list</h5>
+          <li v-for="product in category.company.catchPhrase.split(' ')" v-bind:key='product'>
+            {{product}}
+          </li>
+      </ol>
     </li>
   </ul>
   <VLoadingBar v-show="!fetchComplete"></VLoadingBar>
@@ -48,21 +53,29 @@ const VCategoryList = {
         })
 
       },
-      test(event){
-        console.log(event)
-      },
       openCategoryDialog(value){
         this.isCreateDialogOpen=value;
+      },
+      showProductList(event){
+        const productList = event.currentTarget.children.item(1);
+        if(productList.classList.contains('hide')){
+          productList.classList.add('show')
+          productList.classList.remove('hide')
+        }
+        else{
+          productList.classList.add('hide')
+          productList.classList.remove('add')  
+        }
       }
   },
   mounted(){
-    // this.fetch();
+    this.fetch();
   },
 }
 export default VCategoryList;
 </script>
 
-<style scoped>
+<style>
   .adventureListHeader{
     margin-bottom:1em;
     text-align: center;
@@ -90,11 +103,19 @@ export default VCategoryList;
 
   #categoryListDescription{
     position:relative;
-    height:0.1px;
+    height:0px;
     overflow:hidden;
     transition:height .3s;
   }
-  #categoryList .category:hover #categoryListDescription{
-    height:100px;
+  .productList{
+    overflow: hidden;
+    transition:height 1s;
   }
+  .show{
+    height:0;
+  }
+  .hide{
+    height:auto;
+  }
+
 </style>

@@ -71,11 +71,8 @@ const VCreateCategoryDialog = {
         
     },
     mounted(){
-        console.log(this.isCreateDialogOpen)
     },
-    updated(){
-        console.log('asd')
-    }
+
 }
 
 export default VCreateCategoryDialog;
@@ -118,7 +115,6 @@ export default VCreateCategoryDialog;
     }
     #addCategoryBtn{
         margin-top: 1em;
-        width:50%;
         outline:1px solid blue;
     }
     .newSubcategory{
