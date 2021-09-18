@@ -14,6 +14,11 @@ export default {
 </script>
 
 <style>
+:root{
+  --lightSalmon:lightsalmon;
+  --white:white;
+}
+
 *,*::before,*::after{
   margin:0;
   padding:0;

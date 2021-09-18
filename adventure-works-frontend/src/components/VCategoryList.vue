@@ -1,26 +1,33 @@
 <template>
   <h1 class="adventureListHeader">Adventure Works Category List</h1>
   <ul v-show="fetchComplete" id="categoryList">
-    <li v-for="category in categories" :key="category.id" class="category">
-      {{category.name}}
+    <li v-on:click="test" v-for="category in categories" :key="category.id" class="category">
+      <h4>{{category.name}}</h4>
+      <div id="categoryListDescription">{{category.username}}</div>
     </li>
   </ul>
-  <h1 v-show="!fetchComplete">Waiting for fetch</h1>
-<VAddButton/>
+  <VLoadingBar v-show="!fetchComplete"></VLoadingBar>
+<VAddButton @openCategoryDialog="openCategoryDialog"/>
+<VCreateCategoryDialog :isCreateDialogOpen="isCreateDialogOpen" @openCategoryDialog="openCategoryDialog"/>
 </template>
 
 <script>
 import VAddButton from "./VAddButton"
+import VCreateCategoryDialog from "./VCreateCategoryDialog"
+import VLoadingBar from "./VLoadingBar"
 
 const VCategoryList = {
   name:"VCategoryList",
   components:{
     VAddButton,
+    VCreateCategoryDialog,
+    VLoadingBar
   },
   data(){
     return{
        fetchComplete:false,
        categories:[],
+       isCreateDialogOpen:false,
     }
   },
   methods:{
@@ -35,11 +42,21 @@ const VCategoryList = {
         .then((elements) => {
           this.users = elements;
         })
+        .catch((e) => {
+          //Handle error 
+            console.log(e)
+        })
 
+      },
+      test(event){
+        console.log(event)
+      },
+      openCategoryDialog(value){
+        this.isCreateDialogOpen=value;
       }
   },
   mounted(){
-    this.fetch();
+    // this.fetch();
   },
 }
 export default VCategoryList;
@@ -49,6 +66,9 @@ export default VCategoryList;
   .adventureListHeader{
     margin-bottom:1em;
     text-align: center;
+    color:transparent;
+    background: linear-gradient(to bottom, var(--lightSalmon) 90%, var(--white));
+    background-clip: text;
   }
   #categoryList{
     list-style-type: none;
@@ -59,12 +79,22 @@ export default VCategoryList;
     margin:10px;
     padding:1em 3em;
     cursor:pointer;
-    border:1px solid grey;
+    border:1px solid var(--lightSalmon);
     box-shadow: 0px 0px 5px grey;
     transition: box-shadow .5s, transform .5s;
   }
   #categoryList .category:hover{
     transform:translate(5px,-5px);
-    box-shadow: -10px 10px 5px grey;
+    box-shadow: -10px 10px 5px var(--lightSalmon);
+  }
+
+  #categoryListDescription{
+    position:relative;
+    height:0.1px;
+    overflow:hidden;
+    transition:height .3s;
+  }
+  #categoryList .category:hover #categoryListDescription{
+    height:100px;
   }
 </style>
