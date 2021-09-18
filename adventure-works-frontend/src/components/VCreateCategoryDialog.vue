@@ -3,15 +3,15 @@
         
     <div class="dialog">
         <h4>Add new Category</h4>
-        <form action="#">
+        <form action="#" @submit='submit'>
             <label for="id">Category ID</label>
-            <input type="text" name="id" id="id" disabled>
+            <input type="text" name="id" id="id" disabled :placeholder="categoriesLength">
             <label for="name">Category Name</label>
-            <input type="text" name="name" id="name" required>
+            <input type="text" name="name" id="name" required :value="categoryName" @change="onChange" @keyup.enter="addSubcategory">
             <label for="subcategory">Subcategories</label>
             <ul class="newSubcategoryList"></ul>
             <input type="button" value="Add subcategory" id="addCategoryBtn" v-on:click="addSubcategory">
-            <input type="submit" value="Add Category">
+            <input type="submit" value="Add Category" >
         </form>
     </div>
     <div class="backdrop" @click="$emit('openCategoryDialog',false)"></div>
@@ -22,18 +22,15 @@
 <script>
 const VCreateCategoryDialog = {
     name:"VCreateCategoryDialog",
-    props:['isCreateDialogOpen'],
+    props:['isCreateDialogOpen','categoriesLength'],
     data(){
         return {
-            dialogShow:false,
-            categoryId:Math.random(1,10),
-            categoryName: '' || "Test",
+            categoryName: '',
+            products:[]
         }
     },
     methods:{
-        toggleDialog(){
-            this.show=!this.show;
-        },
+
         addSubcategory(){
             const subcategoryLabel = document.querySelector('label[for="subcategory"]')
             const newSubcategoryList = document.querySelector('.newSubcategoryList')
@@ -67,12 +64,20 @@ const VCreateCategoryDialog = {
             }else{
                 addCategoryBtn.disabled = false;
             }
+        },
+        onChange(event){
+            this.categoryName = event.target.value
+        },
+        submit(event){
+            event.preventDefault();
+            //finish
+            this.$emit('openCategoryDialog',false)
         }
-        
-    },
-    mounted(){
-    },
 
+    },
+    updated(){
+
+    }
 }
 
 export default VCreateCategoryDialog;
@@ -127,10 +132,15 @@ export default VCreateCategoryDialog;
     }
     .newSubcategory a{
         flex:1;
-        border: none;
         display:block;
         cursor: pointer;
         text-align: center;
     }
-
+    input[type='submit']{
+        margin:2em;
+        border-radius: 25px;
+        border:none;
+        border:1px solid var(--lightSalmon);
+        color:red;
+    }
 </style>

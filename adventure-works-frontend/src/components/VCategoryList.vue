@@ -3,17 +3,18 @@
   <ul v-show="fetchComplete" id="categoryList">
     <li @click='showProductList' v-for="category in categories" :key="category.id" class="category">
       <h4>{{category.name}}</h4>
-      <ol class="productList hide">
-          <h5>{{category.name}} product list</h5>
-          <li v-for="product in category.company.catchPhrase.split(' ')" v-bind:key='product'>
-            {{product}}
-          </li>
-      </ol>
+        <ol class="productList hide">
+            <h5>{{category.name}} product list</h5>
+            <li v-for="product in category.company.catchPhrase.split(' ')" v-bind:key='product'>
+              {{product}}
+            </li>
+        </ol>
     </li>
   </ul>
   <VLoadingBar v-show="!fetchComplete"></VLoadingBar>
 <VAddButton @openCategoryDialog="openCategoryDialog"/>
-<VCreateCategoryDialog :isCreateDialogOpen="isCreateDialogOpen" @openCategoryDialog="openCategoryDialog"/>
+<VCreateCategoryDialog :isCreateDialogOpen="isCreateDialogOpen" @openCategoryDialog="openCategoryDialog"
+:categoriesLength='categoriesLength'/>
 </template>
 
 <script>
@@ -33,11 +34,11 @@ const VCategoryList = {
        fetchComplete:false,
        categories:[],
        isCreateDialogOpen:false,
+       categoriesLength:0,
     }
   },
   methods:{
     fetch(){
-      
       fetch('https://jsonplaceholder.typicode.com/users')
         .then(response => response.json())
         .then(json => {
@@ -54,7 +55,11 @@ const VCategoryList = {
 
       },
       openCategoryDialog(value){
+        if(!this.categories.length){
+          return;
+        }
         this.isCreateDialogOpen=value;
+        this.categoriesLength = this.categories.length;
       },
       showProductList(event){
         const productList = event.currentTarget.children.item(1);
@@ -64,7 +69,7 @@ const VCategoryList = {
         }
         else{
           productList.classList.add('hide')
-          productList.classList.remove('add')  
+          productList.classList.remove('show')  
         }
       }
   },
@@ -109,12 +114,12 @@ export default VCategoryList;
   }
   .productList{
     overflow: hidden;
-    transition:height 1s;
-  }
-  .show{
-    height:0;
+    list-style-type: armenian;
   }
   .hide{
+    height:0;
+  }
+  .show{
     height:auto;
   }
 
