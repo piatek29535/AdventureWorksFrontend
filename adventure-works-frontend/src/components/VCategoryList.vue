@@ -5,9 +5,9 @@
       <h4>{{category.name}}</h4>
         <ol class="productList hide">
             <h5>{{category.name}} product list</h5>
-            <li v-for="product in category.company.catchPhrase.split(' ')" v-bind:key='product'>
+            <!-- <li v-for="product in category.company.catchPhrase.split(' ')" v-bind:key='product'>
               {{product}}
-            </li>
+            </li> -->
         </ol>
     </li>
   </ul>
@@ -39,20 +39,13 @@ const VCategoryList = {
   },
   methods:{
     fetch(){
-      fetch('https://jsonplaceholder.typicode.com/users')
+      fetch('https://localhost:44398/categories')
         .then(response => response.json())
         .then(json => {
           this.fetchComplete = true;
           this.categories = json;
         })
-        .then((elements) => {
-          this.users = elements;
-        })
-        .catch((e) => {
-          //Handle error 
-            console.log(e)
-        })
-
+        .catch(e => console.log(e))
       },
       openCategoryDialog(value){
         if(!this.categories.length){
