@@ -1,22 +1,24 @@
-<template >
-    <div v-show="isCreateDialogOpen">
-        
+<template >        
     <div class="dialog">
         <h4>Add new Category</h4>
         <form action="#" @submit='submit'>
-            <label for="id">Category ID</label>
-            <input type="text" name="id" id="id" disabled :placeholder="categoriesLength">
-            <label for="name">Category Name</label>
-            <input type="text" name="name" id="name" required :value="categoryName" @change="onChange" @keyup.enter="addSubcategory">
-            <label for="subcategory">Subcategories</label>
-            <ul class="newSubcategoryList"></ul>
-            <input type="button" value="Add subcategory" id="addCategoryBtn" v-on:click="addSubcategory">
+            <div class="inputWrapper">
+                <label for="id">Category ID</label>
+                <input type="text" name="id" id="id" disabled :placeholder="categoriesLength">
+            </div>
+            <div class="inputWrapper">
+                <label for="name">Category Name</label>
+                <input type="text" name="name" id="name" required :value="categoryName" @change="onChange" @keyup.enter="addSubcategory">
+            </div>
+            <div class="inputWrapper">
+                <label for="subcategory">Subcategories</label>
+                <ul class="newSubcategoryList"></ul>
+                <input type="button" value="Add subcategory" id="addCategoryBtn" v-on:click="addSubcategory">
+            </div>
             <input type="submit" value="Add Category" >
         </form>
     </div>
     <div class="backdrop" @click="$emit('openCategoryDialog',false)"></div>
-    
-</div>
 </template>
 
 <script>
@@ -92,55 +94,36 @@ export default VCreateCategoryDialog;
         opacity: .6;
     }
     .dialog{
-        position: fixed;
-        inset: 10% 25%;
-        background-color:lightgray;
-        padding: 0 5em;
-        overflow: auto;
-        z-index: 2;
-        box-shadow: -5px 5px 5px darkgray;
-    }
-    
-    .dialog h4{
-        margin: 1em;
-        text-align: center;
-    }
-    form{
-        display: flex;
-        flex-direction: column;
-    }
-    form *{
-        padding:.5em 0
-    }
-    form label{
-        margin-top: 1em;
-    }
-    form:last-child{
-        margin-bottom: 3em;
-    }
-    #addCategoryBtn{
-        margin-top: 1em;
-        outline:1px solid blue;
-    }
-    .newSubcategory{
+        position:fixed;
+        background:white;
+        padding:2em;
+        z-index:2;
+        top:10%;
+        overflow:auto;
         display:flex;
-        justify-content: space-around;
-        align-items: stretch;
+        align-items: center;
+        flex-direction:column;
+        max-height:80vh;
     }
-    .newSubcategory input{
-        flex:8
+
+    .inputWrapper{
+        margin:20px 0px;
+        padding:1em 60px;
+        padding-left: 1em;
+        display:flex;
+        flex-direction:column;
+        border:1px solid black;
+        border-radius: 10px;
     }
-    .newSubcategory a{
-        flex:1;
+    .inputWrapper *{
         display:block;
-        cursor: pointer;
-        text-align: center;
     }
-    input[type='submit']{
-        margin:2em;
-        border-radius: 25px;
-        border:none;
-        border:1px solid var(--lightSalmon);
-        color:red;
+    .inputWrapper label{
+        margin-bottom:10px;
     }
+
+    .inputWrapper ul{
+        list-style-type: none;
+    }
+
 </style>

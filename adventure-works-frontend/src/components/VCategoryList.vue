@@ -75,7 +75,7 @@ export default VCategoryList;
 
 <style>
   .adventureListHeader{
-    margin-bottom:1em;
+      margin-bottom:1em;
     text-align: center;
     color:transparent;
     background: linear-gradient(to bottom, var(--lightSalmon) 90%, var(--white));
