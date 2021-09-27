@@ -1,13 +1,13 @@
 <template>
   <h1 class="adventureListHeader">Adventure Works Category List</h1>
   <ul v-show="fetchComplete" id="categoryList">
-    <li @click='showProductList' v-for="category in categories" :key="category.id" class="category">
+    <li @click="fetchProductList($event, category.productCategoryID)" v-for="category in categories" :key="category.id" class="category">
       <h4>{{category.name}}</h4>
         <ol class="productList hide">
             <h5>{{category.name}} product list</h5>
-            <!-- <li v-for="product in category.company.catchPhrase.split(' ')" v-bind:key='product'>
-              {{product}}
-            </li> -->
+            <li v-for="product in products" v-bind:key='product'>
+              {{product.name}}
+            </li>
         </ol>
     </li>
   </ul>
@@ -35,6 +35,7 @@ const VCategoryList = {
        categories:[],
        isCreateDialogOpen:false,
        categoriesLength:0,
+       products: []
     }
   },
   methods:{
@@ -42,28 +43,40 @@ const VCategoryList = {
       fetch('https://localhost:44398/categories')
         .then(response => response.json())
         .then(json => {
-          this.fetchComplete = true;
           this.categories = json;
+          this.isCreateDialogOpen = false;
         })
         .catch(e => console.log(e))
+        .finally(() => {
+          this.fetchComplete = true;
+        })
       },
       openCategoryDialog(value){
-        if(!this.categories.length){
+        if(!this.fetchComplete){
           return;
         }
         this.isCreateDialogOpen=value;
         this.categoriesLength = this.categories.length;
       },
-      showProductList(event){
-        const productList = event.currentTarget.children.item(1);
-        if(productList.classList.contains('hide')){
-          productList.classList.add('show')
-          productList.classList.remove('hide')
-        }
-        else{
-          productList.classList.add('hide')
-          productList.classList.remove('show')  
-        }
+      fetchProductList(event, CategoryID){
+        this.products = []
+        const productList = event.currentTarget;
+
+        fetch(`https://localhost:44398/product/${CategoryID}`)
+          .then(res => res.json())
+          .then(response => {
+
+            if(productList.classList.contains('hide')){
+              productList.classList.add('show')
+              productList.classList.remove('hide')
+            }
+            else{
+              productList.classList.add('hide')
+              productList.classList.remove('show')  
+            }
+
+            this.products = [...response]
+          })
       }
   },
   mounted(){

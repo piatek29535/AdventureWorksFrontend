@@ -1,4 +1,5 @@
-<template >        
+<template >
+    <div class="dialogWrapper" v-show="isCreateDialogOpen">
     <div class="dialog">
         <h4>Add new Category</h4>
         <form action="#" @submit='submit'>
@@ -19,12 +20,14 @@
         </form>
     </div>
     <div class="backdrop" @click="$emit('openCategoryDialog',false)"></div>
+    </div>
 </template>
 
 <script>
 const VCreateCategoryDialog = {
     name:"VCreateCategoryDialog",
     props:['isCreateDialogOpen','categoriesLength'],
+    emits: ["openCategoryDialog"],
     data(){
         return {
             categoryName: '',
@@ -86,6 +89,10 @@ export default VCreateCategoryDialog;
 </script>
 
 <style>
+    .dialogWrapper{
+        position:fixed;
+        inset:0;
+    }
     .backdrop{
         position: fixed;
         inset:0;
@@ -98,17 +105,17 @@ export default VCreateCategoryDialog;
         background:white;
         padding:2em;
         z-index:2;
-        top:10%;
         overflow:auto;
         display:flex;
         align-items: center;
         flex-direction:column;
         max-height:80vh;
+        inset:10%;
     }
 
     .inputWrapper{
         margin:20px 0px;
-        padding:1em 60px;
+        padding:1em 3em;
         padding-left: 1em;
         display:flex;
         flex-direction:column;
@@ -122,8 +129,23 @@ export default VCreateCategoryDialog;
         margin-bottom:10px;
     }
 
-    .inputWrapper ul{
+    .inputWrapper .newSubcategory{
         list-style-type: none;
+        display:flex;
+        justify-content: space-around;
+        align-items: center;
     }
 
+    .inputWrapper .newSubcategory a{
+        padding:10px;
+    }
+
+    form input {
+        padding: 10px
+    }
+    form{
+        display:flex;
+        flex-direction: column;
+        align-items:stretch;
+    }
 </style>
