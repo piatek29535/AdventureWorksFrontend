@@ -23,7 +23,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 const VCreateCategoryDialog = {
     name:"VCreateCategoryDialog",
     props:['isCreateDialogOpen','categoriesLength'],

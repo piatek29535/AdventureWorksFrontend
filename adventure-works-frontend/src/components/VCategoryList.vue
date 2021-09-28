@@ -17,7 +17,7 @@
 :categoriesLength='categoriesLength'/>
 </template>
 
-<script>
+<script lang="ts">
 import VAddButton from "./VAddButton"
 import VCreateCategoryDialog from "./VCreateCategoryDialog"
 import VLoadingBar from "./VLoadingBar"
@@ -86,11 +86,10 @@ const VCategoryList = {
 export default VCategoryList;
 </script>
 
-<style>
+<style scoped>
   .adventureListHeader{
       margin-bottom:1em;
     text-align: center;
-    color:transparent;
     background: linear-gradient(to bottom, var(--lightSalmon) 90%, var(--white));
     background-clip: text;
   }

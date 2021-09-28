@@ -5,7 +5,7 @@
 </template>
 
 
-<script>
+<script lang="ts">
     const VAddButton = {
         
     }

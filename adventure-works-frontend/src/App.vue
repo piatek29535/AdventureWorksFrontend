@@ -2,41 +2,25 @@
   <VCategoryList/>
 </template>
 
-<script>
-import VCategoryList from './components/VCategoryList.vue'
+<script lang="ts">
+import { Options, Vue } from 'vue-class-component';
+import VCategoryList from "./components/VCategoryList.vue"
 
-export default {
-  name: 'App',
+@Options({
   components: {
     VCategoryList,
-  }
-}
+  },
+})
+export default class App extends Vue {}
 </script>
 
 <style>
-:root{
-  --lightSalmon:lightsalmon;
-  --white:white;
-}
-
-*,*::before,*::after{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-
-}
 #app {
-  margin:0 auto;
-  max-width:1000px;
-  position:relative;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-.flex{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
